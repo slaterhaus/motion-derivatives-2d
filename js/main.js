@@ -24,56 +24,30 @@ function calculateDerivatives(positionData, timeStep) {
 
 function createChart(positionData) {
     let derivatives = calculateDerivatives(positionData, 1);
-    let xData = Array.from({ length: positionData.length }, (_, i) => i);
 
-    let trace1 = {
-        x: xData,
-        y: positionData,
-        mode: 'lines',
-        name: 'Position'
-    };
-
-    let trace2 = {
-        x: xData,
+    let trace = {
+        x: positionData,
         y: derivatives.velocity,
-        mode: 'lines',
-        name: 'Velocity'
+        z: derivatives.acceleration,
+        mode: 'markers',
+        type: 'scatter3d',
+        marker: {
+            size: 3
+        },
+        name: 'Motion'
     };
-
-    let trace3 = {
-        x: xData,
-        y: derivatives.acceleration,
-        mode: 'lines',
-        name: 'acceleration'
-    };
-
-    let trace4 = {
-        x: xData,
-        y: derivatives.jerk,
-        mode: 'lines',
-        name: 'jerk'
-    };
-    let trace5 = {
-        x: xData,
-        y: derivatives.jounce,
-        mode: 'lines',
-        name: 'jounce'
-    };
-
-
-    // Other traces for acceleration, jerk, snap, crackle, pop...
 
     let layout = {
-        title: 'Derivatives of Motion',
-        xaxis: {
-            title: 'Time'
+        title: '3D Scatter Plot of Motion Derivatives',
+        autosize: true,
+        scene: {
+            xaxis: {title: 'Position'},
+            yaxis: {title: 'Velocity'},
+            zaxis: {title: 'Acceleration'},
         },
-        yaxis: {
-            title: 'Value'
-        }
     };
 
-    Plotly.newPlot('chart', [trace1, trace2, trace3, trace4, trace5], layout);
+    Plotly.newPlot('myDiv', [trace], layout);
 }
 
 function generateRandomData() {
@@ -87,15 +61,16 @@ function generateRandomData() {
 function updateChart() {
     let positionData = generateRandomData();
     let derivatives = calculateDerivatives(positionData, 1);
-    let xData = Array.from({ length: positionData.length }, (_, i) => i);
 
     let update = {
-        x: [xData, xData /*, other arrays for each trace... */],
-        y: [positionData, derivatives.velocity /*, other arrays for each trace... */]
+        x: [positionData],
+        y: [derivatives.velocity],
+        z: [derivatives.acceleration]
     };
 
-    Plotly.update('chart', update);
+    Plotly.update('myDiv', update);
 }
+
 
 createChart(generateRandomData());
 // Run the function every 10 seconds
