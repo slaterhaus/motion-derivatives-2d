@@ -5,26 +5,17 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 </head>
 <body>
-<!--<div class="container">
-  <h4>Enter your data</h4>
-  <div class="input-field">
-    <input id="positionData" type="text" class="validate">
-    <label for="positionData">Position Data (comma separated)</label>
-  </div>
-  <div class="input-field">
-    <input id="timeStep" type="text" class="validate">
-    <label for="timeStep">Time Step</label>
-  </div>
-  <button class="btn waves-effect waves-light" id="submit-button" >Calculate and Graph</button>
-</div>-->
-<div class="container">
-  <canvas id="myChart"></canvas>
+
+<div class="chart" id="chart">
 </div>
 
 <!-- Compiled and minified JavaScript -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.plot.ly/plotly-2.24.1.min.js" charset="utf-8"></script>
 <!-- Include your JavaScript file that contains the calculateDerivatives and calculateAndGraph functions -->
 <script src="js/main.js"></script>
+<script>
+  console.log(Plotly)
+</script>
 </body>
 </html>

@@ -24,69 +24,56 @@ function calculateDerivatives(positionData, timeStep) {
 
 function createChart(positionData) {
     let derivatives = calculateDerivatives(positionData, 1);
+    let xData = Array.from({ length: positionData.length }, (_, i) => i);
 
-    let ctx = document.getElementById('myChart').getContext('2d');
+    let trace1 = {
+        x: xData,
+        y: positionData,
+        mode: 'lines',
+        name: 'Position'
+    };
 
-    myChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: positionData.slice(1), // Use the positions as labels, ignoring the first position because we don't have velocity for it
-            datasets: [{
-                label: 'Velocity',
-                data: derivatives.velocity,
-                borderColor: 'rgba(255, 99, 132, 1)',
-                fill: true
-            }, {
-                label: 'Acceleration',
-                data: derivatives.acceleration,
-                borderColor: 'rgba(54, 162, 235, 1)',
-                fill: false
-            }, {
-                label: 'Jerk',
-                data: derivatives.jerk,
-                borderColor: 'rgba(255, 206, 86, 1)',
-                fill: false
-            }, {
-                label: 'Jounce',
-                data: derivatives.jounce,
-                borderColor: 'rgba(75, 192, 192, 1)',
-                fill: false
-            }]
+    let trace2 = {
+        x: xData,
+        y: derivatives.velocity,
+        mode: 'lines',
+        name: 'Velocity'
+    };
+
+    let trace3 = {
+        x: xData,
+        y: derivatives.acceleration,
+        mode: 'lines',
+        name: 'acceleration'
+    };
+
+    let trace4 = {
+        x: xData,
+        y: derivatives.jerk,
+        mode: 'lines',
+        name: 'jerk'
+    };
+    let trace5 = {
+        x: xData,
+        y: derivatives.jounce,
+        mode: 'lines',
+        name: 'jounce'
+    };
+
+
+    // Other traces for acceleration, jerk, snap, crackle, pop...
+
+    let layout = {
+        title: 'Derivatives of Motion',
+        xaxis: {
+            title: 'Time'
         },
-        options: {
-            responsive: true,
-            animation: {
-                duration: 1000,
-            },
-            animations: {
-                tension: {
-                    duration: 100,
-                    easing: 'linear',
-                    from: 1,
-                    to: 0,
-                    loop: true
-                }
-            },
-            scales: {
-                x: {
-                    display: false,
-                    beginAtZero: true,
-                    title: {
-                        display: false,
-                        text: 'Position'
-                    }
-                },
-                y: {
-                    display: false,
-                    beginAtZero: true,
-                    title: {
-                        display: false,
-                        text: 'Derivatives'
-                    }
-                }
-            },
+        yaxis: {
+            title: 'Value'
         }
-    });
+    };
+
+    Plotly.newPlot('chart', [trace1, trace2, trace3, trace4, trace5], layout);
 }
 
 function generateRandomData() {
@@ -100,17 +87,14 @@ function generateRandomData() {
 function updateChart() {
     let positionData = generateRandomData();
     let derivatives = calculateDerivatives(positionData, 1);
+    let xData = Array.from({ length: positionData.length }, (_, i) => i);
 
-    // Update the data in the chart
-    myChart.data.labels = positionData;
-    // myChart.data.datasets[0].data = positionData;
-    myChart.data.datasets[0].data = derivatives.velocity;
-    myChart.data.datasets[1].data = derivatives.acceleration;
-    myChart.data.datasets[2].data = derivatives.jerk;
-    myChart.data.datasets[3].data = derivatives.jounce;
+    let update = {
+        x: [xData, xData /*, other arrays for each trace... */],
+        y: [positionData, derivatives.velocity /*, other arrays for each trace... */]
+    };
 
-    // Animate the transition to the new data
-    myChart.update();
+    Plotly.update('chart', update);
 }
 
 createChart(generateRandomData());
