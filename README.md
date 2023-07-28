@@ -4,3 +4,5 @@ It uses Chart.js to animate the transitions between randomly generated data sets
 
 Ideal for learning and teaching purposes, this project brings abstract concepts in physics and calculus to life. Whether you're a student trying to grasp these concepts or an educator looking for a compelling teaching tool, this project offers a playful yet profound way to understand the complex world of motion.
 
+# local
+`npx http-server`
