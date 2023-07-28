@@ -47,15 +47,15 @@ function createChart(positionData) {
         },
     };
 
-    Plotly.newPlot('myDiv', [trace], layout);
+    Plotly.newPlot('chart', [trace], layout);
 }
 
 function generateRandomData() {
     // Generate a random array length between 10 and 30
-    let length = 25;//Math.floor(Math.random() * 21) + 10;
+    let length = 1000;//Math.floor(Math.random() * 21) + 10;
 
     // Create an array of the specified length with random numbers between 1 and 1000
-    return Array.from({length: length}, () => Math.floor(Math.random() * 100) + 1);
+    return Array.from({length: length}, () => Math.floor(Math.random() * 1000) + 1);
 }
 
 function updateChart() {
@@ -67,11 +67,19 @@ function updateChart() {
         y: [derivatives.velocity],
         z: [derivatives.acceleration]
     };
-
-    Plotly.update('myDiv', update);
+    let animationOptions = {
+        transition: {
+            duration: 500,
+            easing: 'cubic-in-out'
+        },
+        frame: {
+            duration: 500
+        }
+    }
+    Plotly.animate('chart', update, animationOptions);
 }
 
 
 createChart(generateRandomData());
 // Run the function every 10 seconds
-setInterval(updateChart, 1 * 1000);
+// setInterval(updateChart, 1 * 1000);
